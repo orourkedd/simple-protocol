@@ -1,7 +1,8 @@
-const isSuccess = p => p.success === true
-const isFailure = p => p.success === false
+const isSuccess = p => !!p && p.success === true
+const isFailure = p => !!p && p.success === false
 const getSuccesses = l => l.filter(isSuccess)
 const getFailures = l => l.filter(isFailure)
+const assign = require('lodash/assign')
 
 const isProtocol = (s) => {
   if (!s) return false
@@ -23,14 +24,16 @@ const errorToObject = (e) => {
   }, {})
 }
 
-const success = (payload = null) => {
-  return {
+const success = (payload = null, props = {}) => {
+  if (isSuccess(payload)) return assign(payload, props)
+  return assign({
     success: true,
     payload
-  }
+  }, props)
 }
 
-const failure = (e = null) => {
+const failure = (e = null, props = {}) => {
+  if (isFailure(e)) return assign(e, props)
   let error = e
   if (typeof e === 'string') {
     error = { message: e }
@@ -38,10 +41,10 @@ const failure = (e = null) => {
     error = errorToObject(e)
   }
 
-  return {
+  return assign({
     success: false,
     error
-  }
+  }, props)
 }
 
 const hasError = (s) => s.hasOwnProperty('error')

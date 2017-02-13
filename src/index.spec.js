@@ -24,6 +24,33 @@ describe('index.js', () => {
       }
       deepEqual(actual, expected)
     })
+
+    it('should not double wrap a success', () => {
+      const expected = success('foo')
+      const actual = success(expected)
+      deepEqual(actual, expected)
+    })
+
+    it('should merge properies', () => {
+      const actual = success('hi', { foo: 'bar' })
+      const expected = {
+        success: true,
+        payload: 'hi',
+        foo: 'bar'
+      }
+      deepEqual(actual, expected)
+    })
+
+    it('should merge properies with existing successes', () => {
+      const f = success('hi')
+      const actual = success(f, { foo: 'bar' })
+      const expected = {
+        success: true,
+        payload: 'hi',
+        foo: 'bar'
+      }
+      deepEqual(actual, expected)
+    })
   })
 
   describe('failure()', () => {
@@ -65,6 +92,37 @@ describe('index.js', () => {
       }
       deepEqual(actual, expected)
     })
+
+    it('should not double wrap a failure', () => {
+      const expected = failure('oops')
+      const actual = failure(expected)
+      deepEqual(actual, expected)
+    })
+
+    it('should merge properies', () => {
+      const actual = failure('oops', { foo: 'bar' })
+      const expected = {
+        success: false,
+        error: {
+          message: 'oops'
+        },
+        foo: 'bar'
+      }
+      deepEqual(actual, expected)
+    })
+
+    it('should merge properies with existing failures', () => {
+      const f = failure('oops')
+      const actual = failure(f, { foo: 'bar' })
+      const expected = {
+        success: false,
+        error: {
+          message: 'oops'
+        },
+        foo: 'bar'
+      }
+      deepEqual(actual, expected)
+    })
   })
 
   describe('isSuccess()', () => {
@@ -81,6 +139,12 @@ describe('index.js', () => {
       const expected = false
       deepEqual(actual, expected)
     })
+
+    it('should return false for falsey values', () => {
+      const actual = isSuccess(undefined)
+      const expected = false
+      deepEqual(actual, expected)
+    })
   })
 
   describe('isFailure()', () => {
@@ -94,6 +158,12 @@ describe('index.js', () => {
     it('should return false if not a failure', () => {
       const s = success()
       const actual = isFailure(s)
+      const expected = false
+      deepEqual(actual, expected)
+    })
+
+    it('should return false for falsey values', () => {
+      const actual = isFailure(undefined)
       const expected = false
       deepEqual(actual, expected)
     })
