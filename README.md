@@ -1,5 +1,3 @@
-# Simple Protocol
-
 ## What is simple protocol?
 
 Simple protocol is *simple*:  
