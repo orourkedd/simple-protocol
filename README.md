@@ -1,7 +1,7 @@
 ## What is simple protocol?
 
 Simple protocol is *simple*:  
-1) Never intentionally throw exceptions / always return with a 200 status code.  
+1) Never intentionally throw exceptions.
 2) Return a valid JSON object like this for a success:
 ```
 {
