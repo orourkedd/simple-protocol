@@ -1,6 +1,4 @@
-# Simple Protocol Http
-
-This module normalizes http responses using Simple Protocol.  HTTP response bodies are parsed as JSON by default but gracefully fall back to text if the response body is not valid JSON.
+# Simple Protocol
 
 ## What is simple protocol?
 
