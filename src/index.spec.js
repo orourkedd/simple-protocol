@@ -11,7 +11,9 @@ const {
   success,
   failure,
   isProtocol,
-  clean
+  clean,
+  hasAnyFailures,
+  getFirstFailure
 } = require('./index')
 
 describe('index.js', () => {
@@ -321,6 +323,38 @@ describe('index.js', () => {
         success: false,
         error: 1
       }
+      deepEqual(actual, expected)
+    })
+  })
+
+  describe('hasAnyFailures()', () => {
+    it('should return true if there are any failures', () => {
+      const l = [success(), failure()]
+      const actual = hasAnyFailures(l)
+      const expected = true
+      deepEqual(actual, expected)
+    })
+
+    it('should return false if there are no failures', () => {
+      const l = [success(), success()]
+      const actual = hasAnyFailures(l)
+      const expected = false
+      deepEqual(actual, expected)
+    })
+  })
+
+  describe('getFirstFailure()', () => {
+    it('should return first failure', () => {
+      const l = [success(), failure('foo'), failure('bar')]
+      const actual = getFirstFailure(l)
+      const expected = failure('foo')
+      deepEqual(actual, expected)
+    })
+
+    it('should return falsey value if no failures', () => {
+      const l = [success(), success()]
+      const actual = getFirstFailure(l)
+      const expected = undefined
       deepEqual(actual, expected)
     })
   })
