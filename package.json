@@ -1,6 +1,6 @@
 {
   "name": "simple-protocol-helpers",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A small library for using simple protocol",
   "main": "lib/index.js",
   "repository": "git://github.com/orourkedd/simple-protocol",
